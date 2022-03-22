@@ -229,4 +229,26 @@ React.createElement(Expenses, {items: expenses})
 
 > 결론: 현대 React 프로젝트에서는 react 라이브러리를 import 하지 않아도 자동으로 JSX 변환이 일어지게끔 세팅이 되어있지만, 우리는 **JSX변환이 react에 의해 내부적으로 일어나고 있은 것을 인지**하고 있어야한다.
 
-조직화 하는 법
+### 컴포넌트 조직화(리액트 폴더구조 설계)
+
+<a href='https://fantasy-iris-224.notion.site/React-c8554b7fd2ad49af9ff3b9d5c10548dc'>리액트 설계에 대한 고민</a>
+
+- 리액트 프로젝트가 커지다보면, 한 폴더 안에 수 많은 파일이 쌓이게 된다.
+- 이 것을 나누는 기준은 개발자 혹은 프로젝트의 성향에 따라 다를 수 있다.
+- 일반적으로, 파일타입에 따른 아토믹 디자인 방식, 파일 기능이나 라우트로 나누는 기준
+
+### 컴포넌트 표현 방식
+
+- 명령식: 기명 함수를 정의
+  ```
+  function Component(){
+    return <div>Hello World!</div>
+  }
+  ```
+- 선언식: arrow function을 상수에 담는 방식
+  ```
+  const Component = () => {
+    return <div>Hello World!</div>
+  }
+  ```
+  ※ 취향 차이지만 상수로 선언하는 것이 JS특성 상 hoisting이 일어나지 않는 것처럼 작동되어 안전한 방식으로 알고 있음
