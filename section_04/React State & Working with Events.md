@@ -150,3 +150,9 @@ const [ state, setState ] = useState('초기값')
 > 대신, useState와 같은 state생성 hook을 통해 state에 변수를 저장하고 리액트가 주시하게 한다.
 >
 > 변경이 있을 때, 리액트가 해당 변경이 일어난 컴포넌트를 다시 실행시켜 화면에 업데이트 값이 반영되도록 한다.
+
+**추가**
+
+- 컴포넌트가 re-render할 때 useState를 정의한 코드도 다시 실행된다.
+- 이 때, React와 useState는 재실행 되기 이전에 **업데이트 된 값을 state에 넘겨준다**.
+- 이렇게 state는 항상 새로운 값을 유지한다.
