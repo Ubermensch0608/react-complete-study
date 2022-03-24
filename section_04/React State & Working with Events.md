@@ -156,3 +156,82 @@ const [ state, setState ] = useState('초기값')
 - 컴포넌트가 re-render할 때 useState를 정의한 코드도 다시 실행된다.
 - 이 때, React와 useState는 재실행 되기 이전에 **업데이트 된 값을 state에 넘겨준다**.
 - 이렇게 state는 항상 새로운 값을 유지한다.
+
+### eventListner - input
+
+**설계**
+
+- 유저에게 더 다양한 사용자 경험을 주기위해서는 유저의 의사를 받아들이는 것이 필요하다.
+- 그러한 것으로는 input을 통해 유저가 행동한 것을 반영하는 방법이 있다.
+- 그런 상황을 생각하고, 실습 프로젝트에서는 유저가 input에 지축내역의 `제목, 값, 구매일자`를 기입하고 그 정보를 기반으로 화면에 나타내려고 한다.
+
+**input 값 받아오기**
+그렇다면, 유저가 input에 기입한 숫자, 텍스트 등의 값은 어떻게 얻을 수 있을까?
+input의 경우 가장 대표적인 방법으로 2가지가 있다.
+
+1. onChange와 value 이용하기
+   - input에 onChage이벤트 리스너를 등록해두고,
+   - 이벤트 핸들러 함수를 생성하여 **이벤트 발생**마다 실행되도록 한다.
+   - 해당 함수는 리액트에 의해 자동으로 `event 객체`를 첫 번째 인자로 받는다.
+   - event 객체 내 많은 이벤트 중 해당 input의 현재 상태를 위해서는 **event.target**이 적절하다. target은 해당 input의 DOM요소를 가진다.
+2. useRef이용하기
+
+### state 변경
+
+input에서 변경되는 값을 어떻게 state에 반영시킬까?
+setState 함수를 이용해서 state를 간접적으로 변경한다.
+
+실습 프로젝트와 같이 3개의 input값을 관리해야할 때는 어떨까?
+각 input마다 state를 각각 생성하여 총 3개의 state를 만드는 방법이 있다.
+독립적으로 관리할 수 있고, 유지 보수성이 높을 수 있다는 장점이 있겠다.
+
+하지만, 복잡하지 않은 state 관리에서는 이렇게 많은 state를 만드는 것은 비효율적일 수 있다.
+그렇다면, 하나의 state로 3개의 input 값을 관리할 수는 없을까?
+
+밑의 코드는 실습 프로젝트에서 하나의 state로 관리하는 것 중 일부를 따온 것이다.
+
+```
+const [state, setState] = useState({
+    title: '',
+    amount: '',
+    date:''
+})
+
+const titleChangeHandler = (event) =>{
+setState({
+    ...state,
+    title: event.target.value
+})
+}
+```
+
+예를 들어, titleInput의 값을 받아오려고 할때 기존 state를 가져오고, 그 위에 event로 받아온 input의 값을 덮어씌우는 것이다.
+이런식으로 작성해도 동작이 잘 되는 것 처럼 보인다.
+
+하지만 이것은 리액트에서 피해야하는 state 업데이트 방식이다.
+이유는 다음과 같다.
+
+**이전 state로 업데이트 하기**
+리액트는 state를 변경할 때 **즉시**변경하지 않고, 일정한 스케쥴에 의해 순차적으로 변경하도록 동작한다.
+간단하거나 적은 state변경이 있을 때는 방금과 같은 방식으로도 아무런 문제가 발생하지 않을 수 있으나,
+state 변경이 동시 다발적으로 일어나고 복잡해질 수록 스케줄이 꼬여 의도와 다른 결과를 전달할 수있는 것이다.
+
+그렇기 때문에 다음과 같이 코드를 작성하는 것이 좋다.
+
+```
+const [state, setState] = useState({
+    title: '',
+    amount: '',
+    date:''
+})
+
+const titleChangeHandler = (event) =>{
+setState(prevState => ({
+    ...prevState,
+    title: event.target.value
+    }))
+}
+```
+
+이 방식으로 state 변경을 하면, react는 기억해둔 직전의 state를 반영한다.
+callback으로 이전 state값을 받아오기 때문에 값이 변경될 걱정이 없고, 스케줄 역시 안정적으로 처리된다.
