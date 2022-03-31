@@ -1,9 +1,9 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import testSlice from "store";
+import modalSlice from "store";
 
 export const store = configureStore({
   reducer: {
-    test: testSlice.reducer,
+    modal: modalSlice.reducer,
   },
 });
 

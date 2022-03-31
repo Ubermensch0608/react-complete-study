@@ -1,13 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const testSlice = createSlice({
-  name: "test",
-  initialState: "test",
+interface ModalSliceState {
+  isOpen: boolean;
+  errorMessage: string;
+}
+
+const modalInitialState: ModalSliceState = {
+  isOpen: false,
+  errorMessage: "",
+};
+
+const modalSlice = createSlice({
+  name: "modal",
+  initialState: modalInitialState,
   reducers: {
-    test: () => {},
+    errorMessage: (state, action: PayloadAction<string>) => {
+      state.errorMessage = action.payload;
+    },
+    openModal: (state) => {
+      state.isOpen = true;
+    },
+    closeModal: (state) => {
+      state.isOpen = false;
+    },
   },
 });
 
-export const testActions = testSlice.actions;
+export const modalActions = modalSlice.actions;
 
-export default testSlice;
+export default modalSlice;
