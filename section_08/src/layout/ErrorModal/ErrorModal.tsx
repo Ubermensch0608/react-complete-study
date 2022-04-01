@@ -3,6 +3,7 @@ import React, { FC, Fragment } from "react";
 import { modalActions } from "store";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 
+import { Button, Card } from "components/UI";
 import styled from "styled-components";
 
 const ErrorModal = () => {
@@ -42,19 +43,23 @@ export const ModalOverlay: FC<ModalOverlayProps> = ({
   return (
     <ErrorModalOverlay>
       <div>{errorMessage}</div>
-      <button onClick={onClick}>닫기</button>
+      <Button onClick={onClick}>닫기</Button>
     </ErrorModalOverlay>
   );
 };
 
-export const ErrorModalOverlay = styled.div`
+export const ErrorModalOverlay = styled(Card)`
   position: absolute;
-  top: 50%;
-  left: 50%;
+  z-index: 100;
+  top: 40%;
+  left: 42%;
   background-color: #fff;
+  color: black;
 `;
+
 export const BackDrop = styled.div`
   position: fixed;
+  z-index: 10;
   top: 0;
   left: 0;
   bottom: 0;
