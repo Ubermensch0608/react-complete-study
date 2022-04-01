@@ -1,4 +1,5 @@
 import React, { FC, ReactText } from "react";
+import styled from "styled-components";
 
 interface UserInputProps {
   labelTitle: string;
@@ -20,7 +21,7 @@ const UserInput: FC<UserInputProps> = ({
   };
 
   return (
-    <div>
+    <StyledInput>
       <label htmlFor={labelTitle}>{labelTitle}</label>
       <input
         id={labelTitle}
@@ -28,8 +29,30 @@ const UserInput: FC<UserInputProps> = ({
         value={inputValue}
         onChange={getInputTextHandler}
       />
-    </div>
+    </StyledInput>
   );
 };
 
-export default UserInput;
+const StyledInput = styled.div`
+  > label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  > input {
+    font: inherit;
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.15rem;
+    margin-bottom: 0.5rem;
+
+    :focus {
+      outline: none;
+      border-color: #4f005f;
+    }
+  }
+`;
+
+export { UserInput };

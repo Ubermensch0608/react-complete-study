@@ -1,8 +1,9 @@
-import UserInput from "components/UI/UserInput";
+import { Card, UserInput, Button } from "components/UI";
 import { User } from "components/Users/Users";
 import { useAppDispatch } from "store/hooks";
 import { FC, useState } from "react";
 import { modalActions } from "store";
+import styled from "styled-components";
 
 const NewUser: FC<{ userInfo: (newUser: User) => void }> = ({ userInfo }) => {
   const dispatch = useAppDispatch();
@@ -50,22 +51,31 @@ const NewUser: FC<{ userInfo: (newUser: User) => void }> = ({ userInfo }) => {
   };
 
   return (
-    <form onSubmit={submitUserHandler}>
-      <UserInput
-        labelTitle="유저 이름"
-        inputType="text"
-        inputValue={userName}
-        onChangeInputValue={userNameHandler}
-      />
-      <UserInput
-        labelTitle="나이 (세)"
-        inputType="number"
-        inputValue={userAge}
-        onChangeInputValue={userAgeHandler}
-      />
-      <button type="submit">사용자 추가</button>
-    </form>
+    <NewUserForm>
+      <form onSubmit={submitUserHandler}>
+        <UserInput
+          labelTitle="유저 이름"
+          inputType="text"
+          inputValue={userName}
+          onChangeInputValue={userNameHandler}
+        />
+        <UserInput
+          labelTitle="나이 (세)"
+          inputType="number"
+          inputValue={userAge}
+          onChangeInputValue={userAgeHandler}
+        />
+        <Button type="submit">사용자 추가</Button>
+      </form>
+    </NewUserForm>
   );
 };
+
+export const NewUserForm = styled(Card)`
+  margin: 2rem auto;
+  padding: 1rem;
+  width: 90%;
+  max-width: 40rem;
+`;
 
 export default NewUser;
