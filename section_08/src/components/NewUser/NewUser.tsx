@@ -8,12 +8,15 @@ import styled from "styled-components";
 const NewUser: FC<{ userInfo: (newUser: User) => void }> = ({ userInfo }) => {
   const dispatch = useAppDispatch();
   const [userName, setUserName] = useState<string>("");
-  const [userAge, setUserAge] = useState<string | number>("");
+  const [userAge, setUserAge] = useState<string>("");
 
   const submitUserHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (userName.trim().length === 0 || userAge === "") {
+    if (
+      userName.trim().length === 0 ||
+      userAge.toString().trim().length === 0
+    ) {
       dispatch(modalActions.errorMessage("정보를 모두 기입해주세요."));
       dispatch(modalActions.openModal());
       setUserName("");
@@ -21,7 +24,7 @@ const NewUser: FC<{ userInfo: (newUser: User) => void }> = ({ userInfo }) => {
       return;
     }
 
-    if (userAge <= 0) {
+    if (Number(userAge) <= 0) {
       dispatch(
         modalActions.errorMessage("알맞는 나이를 기입해주세요.(0세 이상)")
       );
@@ -34,7 +37,7 @@ const NewUser: FC<{ userInfo: (newUser: User) => void }> = ({ userInfo }) => {
     const newUser = {
       id: Math.random().toString(),
       name: userName,
-      age: userAge,
+      age: Number(userAge),
     };
 
     userInfo(newUser);
@@ -46,7 +49,7 @@ const NewUser: FC<{ userInfo: (newUser: User) => void }> = ({ userInfo }) => {
     setUserName(currentUserName);
   };
 
-  const userAgeHandler = (currentUserAge: number) => {
+  const userAgeHandler = (currentUserAge: string) => {
     setUserAge(currentUserAge);
   };
 
@@ -57,13 +60,13 @@ const NewUser: FC<{ userInfo: (newUser: User) => void }> = ({ userInfo }) => {
           labelTitle="유저 이름"
           inputType="text"
           inputValue={userName}
-          onChangeInputValue={userNameHandler}
+          onChange={userNameHandler}
         />
         <UserInput
           labelTitle="나이 (세)"
           inputType="number"
           inputValue={userAge}
-          onChangeInputValue={userAgeHandler}
+          onChange={userAgeHandler}
         />
         <Button type="submit">사용자 추가</Button>
       </form>

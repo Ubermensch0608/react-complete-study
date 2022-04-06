@@ -1,23 +1,23 @@
-import React, { FC, ReactText } from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 
 interface UserInputProps {
   labelTitle: string;
   inputType: string;
-  onChangeInputValue: (currentUserInputValue: any) => void;
+  onChange: (currentUserInputValue: any) => void;
   inputValue?: string | number | undefined;
 }
 
 const UserInput: FC<UserInputProps> = ({
   labelTitle,
   inputType,
-  onChangeInputValue,
+  onChange,
   inputValue,
 }) => {
   const getInputTextHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentValue = event.target.value;
 
-    onChangeInputValue(currentValue);
+    onChange(currentValue);
   };
 
   return (

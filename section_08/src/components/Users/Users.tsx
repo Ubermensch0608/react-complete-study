@@ -1,9 +1,12 @@
+import { Card } from "components/UI";
 import { FC } from "react";
+import styled from "styled-components";
+import OneUser from "./User";
 
 export interface User {
-  id: string;
+  id?: string;
   name: string;
-  age: number | string;
+  age: number;
 }
 
 interface UsersProps {
@@ -12,15 +15,25 @@ interface UsersProps {
 
 const Users: FC<UsersProps> = ({ users }) => {
   return (
-    <ul>
-      {users.map((user) => (
-        <li key={user.id}>
-          <span>{user.name}</span>
-          <span>({user.age} 세)</span>
-        </li>
-      ))}
-    </ul>
+    <UsersWrapper>
+      <UserUl>
+        {users.map((user) => (
+          <OneUser key={user.id} id={user.id} name={user.name} age={user.age} />
+        ))}
+      </UserUl>
+    </UsersWrapper>
   );
 };
+
+const UsersWrapper = styled(Card)`
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 40rem;
+`;
+
+const UserUl = styled.ul`
+  list-style: none;
+  padding: 1rem;
+`;
 
 export default Users;

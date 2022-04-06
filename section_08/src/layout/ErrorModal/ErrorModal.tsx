@@ -17,7 +17,7 @@ const ErrorModal = () => {
   return (
     <Fragment>
       {ReactDOM.createPortal(
-        <BackDrop />,
+        <BackDrop onClick={closeModalHandler} />,
         document.getElementById("backdrop-root") as HTMLElement
       )}
       {ReactDOM.createPortal(
@@ -42,19 +42,26 @@ export const ModalOverlay: FC<ModalOverlayProps> = ({
 }) => {
   return (
     <ErrorModalOverlay>
-      <div>{errorMessage}</div>
-      <Button onClick={onClick}>닫기</Button>
+      <ErrorHeader>
+        <h2>에러 발생!</h2>
+      </ErrorHeader>
+
+      <Content>{errorMessage}</Content>
+
+      <Actions>
+        <Button onClick={onClick}>닫기</Button>
+      </Actions>
     </ErrorModalOverlay>
   );
 };
 
 export const ErrorModalOverlay = styled(Card)`
-  position: absolute;
+  position: fixed;
+  top: 30vh;
+  left: 10%;
+  width: 80%;
   z-index: 100;
-  top: 40%;
-  left: 42%;
-  background-color: #fff;
-  color: black;
+  overflow: hidden;
 `;
 
 export const BackDrop = styled.div`
@@ -65,6 +72,32 @@ export const BackDrop = styled.div`
   bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.8);
+
+  @media (min-width: 768px) {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
 `;
 
+export const ErrorHeader = styled.header`
+  background: #4f005f;
+  padding: 1rem;
+
+  > h2 {
+    margin: 0;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+  }
+`;
+
+export const Content = styled.div`
+  padding: 1rem;
+`;
+
+export const Actions = styled.div`
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+`;
 export default ErrorModal;
